@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/whatareyoutryingtodo/disable-devtool.min.js" disable-devtool-auto></script>
+	<script src="https://tinklehost.github.io/intro.js"></script>
+    <base href="https://cdn.jsdelivr.net/gh/tinklehost/hosting@main/idle-mining/">
+    <title>Idle Mining Empire</title>
+	  <script>
+(function () {
+  console.log("Redirect blocker active");
+
+  // Block window.open
+  window.open = function () {
+    console.warn("Blocked window.open attempt");
+    return null;
+  };
+
+  // Block location changes
+  const blockNavigation = function () {
+    console.warn("Blocked navigation attempt");
+    return false;
+  };
+
+  // Prevent location.href changes
+  Object.defineProperty(window, "location", {
+    configurable: false,
+    enumerable: true,
+    get: function () {
+      return document.location;
+    },
+    set: function () {
+      console.warn("Blocked location change");
+    }
+  });
+
+  // Prevent link clicks from leaving site
+  document.addEventListener("click", function (e) {
+    let target = e.target.closest("a");
+    if (target && target.href && !target.href.includes(location.hostname)) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.warn("Blocked external link:", target.href);
+    }
+  }, true);
+
+  // Remove injected iframes (common popup method)
+  const observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      mutation.addedNodes.forEach(function (node) {
+        if (node.tagName === "IFRAME") {
+          console.warn("Removed injected iframe");
+          node.remove();
+        }
+      });
+    });
+  });
+
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
+
+})();
+</script>
+    <meta
+      name="description"
+      content="Idle Mining Empire, Idle Miner, Mining Games"
+    />
+    <meta property="og:image" content="idle-mining-empire.png" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="media/graphics/misc/favicon.ico"
+    />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,height=device-height, initial-scale=1, maximum-scale=1, user-scalable=0, shrink-to-fit=no, minimal-ui"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="stylesheet" type="text/css" href="game.css" />
+    <script type="text/javascript" src="game.js"></script>
+  </head>
+  <div class="gamecenter-activator"></div>
+  <body onload="setTimeout(function(){window.scrollTo(0,1)},1);">
+    <!--body-->
+    <div id="ajaxbar">
+      <div id="game"><canvas id="canvas"></canvas></div>
+      <div id="orientate">
+        <img src="media/graphics/orientate/landscape.jpg" />
+      </div>
+      <div id="play" class="play" onclick=""></div>
+    </div>
+  </body>
+</html>
