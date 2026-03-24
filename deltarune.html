@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DELTARUNE</title>
+  <base href="https://cdn.jsdelivr.net/gh/tinklehost/hosting@main/deltarune/">
+  <script src="https://tinklehost.github.io/intro.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="fav.ico" />
+
+  <style>
+    a:visited {
+      color: yellow;
+    }
+
+    a:hover {
+      color: rgba(255, 255, 0, 0.75);
+    }
+
+    a:active {
+      color: yellow;
+    }
+
+    /* Fullscreen iframe container */
+    #fullscreenFrame {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      display: none; /* hidden until chapter loads */
+      z-index: 999;
+    }
+
+    #fullscreenFrame iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="mainMenu">
+    <img src="deltarune_logo.png" alt="DELTARUNE Logo" class="logo" />
+    <p class="desc">Choose your chapter.</p>
+
+    <div class="button-group">
+      <button class="button" id="toggleChaptersBtn">Chapters</button>
+
+      <div id="chapterButtons" class="chapter-buttons hidden">
+        <button onclick="loadChapter(1)" class="button">Chapter 1</button>
+        <button onclick="loadChapter(2)" class="button">Chapter 2</button>
+        <button onclick="loadChapter(3)" class="button">Chapter 3</button>
+        <button onclick="loadChapter(4)" class="button">Chapter 4</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FULLSCREEN iframe overlay -->
+  <div id="fullscreenFrame"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleChaptersBtn = document.getElementById('toggleChaptersBtn');
+      const chapterButtons = document.getElementById('chapterButtons');
+      const mainMenu = document.getElementById('mainMenu');
+      const fullscreenFrame = document.getElementById('fullscreenFrame');
+
+      // Toggle chapters list
+      toggleChaptersBtn.addEventListener('click', () => {
+        const isShowing = chapterButtons.classList.toggle('show');
+        if (isShowing) chapterButtons.classList.remove('hidden');
+      });
+
+      // Load chapter in fullscreen
+      window.loadChapter = function (num) {
+        // Hide the menu
+        mainMenu.style.display = 'none';
+
+        // Show the fullscreen iframe
+        fullscreenFrame.style.display = 'block';
+
+        const chapterUrl = `https://tinklehost.github.io/deltarune/chapter${num}`;
+
+        fullscreenFrame.innerHTML = `
+          <iframe src="${chapterUrl}" allowfullscreen></iframe>
+        `;
+      };
+    });
+  </script>
+<script src="https://cdn.jsdelivr.net/npm/whatareyoutryingtodo/disable-devtool.min.js" disable-devtool-auto=""></script>
+</body>
+</html>
