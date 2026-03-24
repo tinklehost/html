@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/whatareyoutryingtodo/disable-devtool.min.js" disable-devtool-auto></script>
+	<script src="https://tinklehost.github.io/intro.js"></script>
+    <meta charset="UTF-8" />
+    <title>OvO 2</title>
+    <base href="https://cdn.jsdelivr.net/gh/tinklehost/hosting@main/ovo-2/">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
+    />
+
+    <meta name="generator" content="Construct 3" />
+
+    <link rel="manifest" href="appmanifest.json" />
+    <link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128.png" />
+    <link rel="apple-touch-icon" sizes="256x256" href="icons/icon-256.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png" />
+    <link rel="icon" type="image/png" href="icons/icon-512.png" />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body style="overflow: hidden">
+    <div id="fb-root"></div>
+	  <script>
+(function () {
+  console.log("Redirect blocker active");
+
+  // Block window.open
+  window.open = function () {
+    console.warn("Blocked window.open attempt");
+    return null;
+  };
+
+  // Block location changes
+  const blockNavigation = function () {
+    console.warn("Blocked navigation attempt");
+    return false;
+  };
+
+  // Prevent location.href changes
+  Object.defineProperty(window, "location", {
+    configurable: false,
+    enumerable: true,
+    get: function () {
+      return document.location;
+    },
+    set: function () {
+      console.warn("Blocked location change");
+    }
+  });
+
+  // Prevent link clicks from leaving site
+  document.addEventListener("click", function (e) {
+    let target = e.target.closest("a");
+    if (target && target.href && !target.href.includes(location.hostname)) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.warn("Blocked external link:", target.href);
+    }
+  }, true);
+
+  // Remove injected iframes (common popup method)
+  const observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      mutation.addedNodes.forEach(function (node) {
+        if (node.tagName === "IFRAME") {
+          console.warn("Removed injected iframe");
+          node.remove();
+        }
+      });
+    });
+  });
+
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
+
+})();
+</script>
+
+    <noscript>
+      <div id="notSupportedWrap">
+        <h2 id="notSupportedTitle">This content requires JavaScript</h2>
+        <p class="notSupportedMessage">
+          JavaScript appears to be disabled. Please enable it to view this
+          content.
+        </p>
+        <p class="notSupportedMessage">
+          This content was developed in Construct 3.
+          <a href="https://www.construct.net/en">Create games online</a>
+        </p>
+      </div>
+    </noscript>
+    <script src="scripts/supportcheck.js"></script>
+    <script src="scripts/offlineclient.js"></script>
+    <script src="scripts/main.js"></script>
+  </body>
+</html>
