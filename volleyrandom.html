@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://cdn.jsdelivr.net/npm/whatareyoutryingtodo/disable-devtool.min.js" disable-devtool-auto></script>
+	<script src="https://tinklehost.github.io/intro.js"></script>
+  <base href="https://cdn.jsdelivr.net/gh/tinklehost/hosting@main/volleyrandom/">
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-7FN7LEVWXD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-7FN7LEVWXD');
+    </script>
+<script>
+(function () {
+  console.log("Redirect blocker active");
+
+  // Block window.open
+  window.open = function () {
+    console.warn("Blocked window.open attempt");
+    return null;
+  };
+
+  // Block location changes
+  const blockNavigation = function () {
+    console.warn("Blocked navigation attempt");
+    return false;
+  };
+
+  // Prevent location.href changes
+  Object.defineProperty(window, "location", {
+    configurable: false,
+    enumerable: true,
+    get: function () {
+      return document.location;
+    },
+    set: function () {
+      console.warn("Blocked location change");
+    }
+  });
+
+  // Prevent link clicks from leaving site
+  document.addEventListener("click", function (e) {
+    let target = e.target.closest("a");
+    if (target && target.href && !target.href.includes(location.hostname)) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.warn("Blocked external link:", target.href);
+    }
+  }, true);
+
+  // Remove injected iframes (common popup method)
+  const observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      mutation.addedNodes.forEach(function (node) {
+        if (node.tagName === "IFRAME") {
+          console.warn("Removed injected iframe");
+          node.remove();
+        }
+      });
+    });
+  });
+
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
+
+})();
+</script>
+    <title>Volley Random</title>
+    <link rel="shortcut icon" href="../../images/ico.ico" type="image/x-icon">
+    <script src="../../storage/js/cloak.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+
+<meta name="generator" content="Construct 3">
+
+	<link rel="manifest" href="appmanifest.json">
+
+
+<link rel="stylesheet" href="style.css">
+
+
+    <script>
+window.addEventListener("keydown", function(e) {
+    // space and arrow keys
+    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+}, false);
+</script>
+
+</head>
+<body>
+<div id="fb-root"></div>
+	<script src="box2d.wasm.js"></script>
+	<noscript>
+		<div id="notSupportedWrap">
+			<h2 id="notSupportedTitle">This content requires JavaScript</h2>
+			<p class="notSupportedMessage">JavaScript appears to be disabled. Please enable it to view this content.</p>
+		</div>
+	</noscript>
+	<script src="scripts/supportcheck.js"></script>
+	<script src="scripts/offlineclient.js"></script>
+	<script src="scripts/main.js"></script>
+	<script src="scripts/register-sw.js"></script>
+</body>
+</html>
